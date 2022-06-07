@@ -1,0 +1,3 @@
+INSERT INTO clients (country, created_at, dni, email, first_name, last_name, phone) VALUES ('Lima', '2022-04-18', 76957680, 'lperez@indeci.gob.pe', 'Leodan', 'Perez', 930102348);
+INSERT INTO clients (country, created_at, dni, email, first_name, last_name, phone) VALUES ('Huancayo', '2022-04-18', 76957645, 'alexis@indeci.gob.pe', 'Alexis', 'Quispe', 930102348);
+INSERT INTO clients (country, created_at, dni, email, first_name, last_name, phone) VALUES ('Cusco', '2022-04-18', 76957456, 'juan@indeci.gob.pe', 'Juan', 'Lopez', 930102348);
