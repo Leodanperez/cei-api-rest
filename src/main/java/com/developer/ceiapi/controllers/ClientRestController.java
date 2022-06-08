@@ -75,4 +75,9 @@ public class ClientRestController {
     public String test() {
         return "Hola Mundo";
     }
+
+    @GetMapping("/dev")
+    public boolean dev() {
+        return true;
+    }
 }
