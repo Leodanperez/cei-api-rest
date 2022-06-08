@@ -70,4 +70,9 @@ public class ClientRestController {
         response.put("message", "El cliente se elimino con exito");
         return new ResponseEntity<Map<String, Object>>(response, HttpStatus.OK);
     }
+
+    @GetMapping("/test")
+    public String test() {
+        return "Hola Mundo";
+    }
 }
