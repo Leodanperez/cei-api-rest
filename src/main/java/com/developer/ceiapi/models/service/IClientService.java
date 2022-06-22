@@ -10,4 +10,6 @@ public interface IClientService {
     public Client save(Client client);
 
     public void delete(Long id);
+
+    public Client findById(Long id);
 }

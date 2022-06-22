@@ -27,8 +27,15 @@ public class ClientServiceImpl implements IClientService {
     }
 
     @Override
+    @Transactional
     public void delete(Long id) {
         clientDao.deleteById(id);
+    }
+
+    @Override
+    @Transactional(readOnly = true)
+    public Client findById(Long id) {
+        return clientDao.findById(id).orElse(null);
     }
 
 }

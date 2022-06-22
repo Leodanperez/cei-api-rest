@@ -16,7 +16,7 @@ import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/api")
-@CrossOrigin(origins = "*", methods= {RequestMethod.GET,RequestMethod.POST})
+@CrossOrigin(origins = "*", methods= {RequestMethod.GET,RequestMethod.POST,RequestMethod.DELETE,RequestMethod.PUT})
 public class ClientRestController {
 
     // http://localhost:8081/api/clients
@@ -72,13 +72,42 @@ public class ClientRestController {
         return new ResponseEntity<Map<String, Object>>(response, HttpStatus.OK);
     }
 
-    @GetMapping("/test")
-    public String test() {
-        return "Hola Mundo";
+    @GetMapping("/clients/{id}")
+    public ResponseEntity<?> show(@PathVariable Long id) {
+        Client client = null;
+        Map<String, Object> response = new HashMap<>();
+        try {
+            client = clientService.findById(id);
+        } catch (DataAccessException e) {
+            response.put("message", "Error al obtener el cliente");
+            response.put("error", e.getMessage().concat(": ").concat(e.getMostSpecificCause().getMessage()));
+            return new ResponseEntity<>(response, HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+        return new ResponseEntity<Client>(client, HttpStatus.OK);
     }
 
-    @GetMapping("/dev")
-    public boolean dev() {
-        return true;
+    @PutMapping("/clients/{id}")
+    public ResponseEntity<?> update(@RequestBody Client client, BindingResult result, @PathVariable Long id) {
+        Client clientActual = clientService.findById(id);
+        Client clientUpdated = null;
+        Map<String, Object> response = new HashMap<>();
+
+        try {
+            clientActual.setLastName(client.getLastName());
+            clientActual.setFirstName(client.getFirstName());
+            clientActual.setEmail(client.getEmail());
+            clientActual.setPhone(client.getPhone());
+            clientActual.setDni(client.getDni());
+            clientActual.setCountry(client.getCountry());
+
+            clientUpdated = clientService.save(clientActual);
+        } catch (DataAccessException e) {
+            response.put("message", "Error al actualizar el cliente en la base de datos");
+            response.put("error", e.getMessage().concat(": ").concat(e.getMostSpecificCause().getMessage()));
+            return new ResponseEntity<Map<String, Object>>(response, HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+        response.put("message", "El cliente ha sido actualizado con éxito!");
+
+        return new ResponseEntity<Map<String, Object>>(response, HttpStatus.CREATED);
     }
 }
